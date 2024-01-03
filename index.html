@@ -95,6 +95,11 @@
         }
     </style>
     <script>
+document.querySelectorAll('input[type=number]').forEach(input => {
+    input.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9.]/g, '');
+    });
+});
         function calculateBreakEven() {
             var gasPrice = parseFloat(document.getElementById("gasPrice").value);
             var priceCar1 = parseFloat(document.getElementById("priceCar1").value);
@@ -137,21 +142,21 @@
     <div class="container">
         <div class="form-group">
             <label for="gasPrice">Price of Gas per Gallon ($):</label>
-            <input type="number" id="gasPrice" step="0.01">
+            <input type="number" id="gasPrice" step="0.01" pattern="\d*">
         </div>
 
         <div class="row">
             <div class="column">
                 <label for="priceCar1">Car 1 Price ($):</label>
-                <input type="number" id="priceCar1">
+                <input type="number" id="priceCar1" pattern="\d*">
                 <label for="mpgCar1">Car 1 MPG:</label>
-                <input type="number" id="mpgCar1">
+                <input type="number" id="mpgCar1" pattern="\d*">
             </div>
             <div class="column">
                 <label for="priceCar2">Car 2 Price ($):</label>
-                <input type="number" id="priceCar2">
+                <input type="number" id="priceCar2" pattern="\d*">
                 <label for="mpgCar2">Car 2 MPG:</label>
-                <input type="number" id="mpgCar2">
+                <input type="number" id="mpgCar2" pattern="\d*">
             </div>
         </div>
 
