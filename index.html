@@ -95,13 +95,18 @@
         }
     </style>
     <script>
-document.querySelectorAll('input[inputmode=decimal]').forEach(input => {
+document.querySelectorAll('input[type="text"][inputmode="decimal"]').forEach(input => {
     input.addEventListener('input', function() {
-        // Allow digits and one decimal point, remove invalid characters
+        // Allow digits, one decimal point
         this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
-        // Optional: Add further logic to restrict to two decimal places
+
+        // Restrict to two decimal places
+        if (this.value.indexOf(".") >= 0) {
+            this.value = this.value.substr(0, this.value.indexOf(".")) + this.value.substr(this.value.indexOf("."), 3);
+        }
     });
 });
+
         function calculateBreakEven() {
             var gasPrice = parseFloat(document.getElementById("gasPrice").value);
             var priceCar1 = parseFloat(document.getElementById("priceCar1").value);
