@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Easily compare two cars based on their fuel efficiency, price, and gas prices to find the most cost-effective option. Ideal for car buyers and dealerships.">
+    <meta name="keywords" content="car comparison, fuel efficiency, car cost calculator, MPG comparison, car dealership tools">
+    <meta name="author" content="Jason Eissayou">
+    <title>Car Cost Efficiency Calculator – Find the Best Car Deal</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center; /* Center align text for the entire body */
+        }
+
+        header, .container, footer {
+            margin: 0 auto; /* Centering header, container, and footer */
+            max-width: 400px; /* Maximum width */
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .column {
+            flex: 0 0 48%;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        footer {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function calculateBreakEven() {
+            var gasPrice = parseFloat(document.getElementById("gasPrice").value);
+            var priceCar1 = parseFloat(document.getElementById("priceCar1").value);
+            var mpgCar1 = parseFloat(document.getElementById("mpgCar1").value);
+            var priceCar2 = parseFloat(document.getElementById("priceCar2").value);
+            var mpgCar2 = parseFloat(document.getElementById("mpgCar2").value);
+
+            if (isNaN(gasPrice) || isNaN(priceCar1) || isNaN(mpgCar1) || isNaN(priceCar2) || isNaN(mpgCar2)) {
+                alert("Please enter all fields correctly.");
+                return;
+            }
+
+            var costPerMileCar1 = gasPrice / mpgCar1;
+            var costPerMileCar2 = gasPrice / mpgCar2;
+
+            var costDifference = priceCar2 - priceCar1;
+            var costPerMileDifference = costPerMileCar1 - costPerMileCar2;
+
+            if (costPerMileDifference <= 0) {
+                document.getElementById("result").innerHTML = "The first car is always more cost-effective or equal in cost.";
+                return;
+            }
+
+            var breakEvenMiles = costDifference / costPerMileDifference;
+
+            document.getElementById("result").innerHTML = "Break-even point: " + breakEvenMiles.toFixed(2) + " miles";
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Car Cost Efficiency Calculator</h1>
+    </header>
+
+    <div class="container">
+        <div class="form-group">
+            <label for="gasPrice">Price of Gas per Gallon ($):</label>
+            <input type="number" id="gasPrice" step="0.01">
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <label for="priceCar1">Car 1 Price ($):</label>
+                <input type="number" id="priceCar1">
+                <label for="mpgCar1">Car 1 MPG:</label>
+                <input type="number" id="mpgCar1">
+            </div>
+            <div class="column">
+                <label for="priceCar2">Car 2 Price ($):</label>
+                <input type="number" id="priceCar2">
+                <label for="mpgCar2">Car 2 MPG:</label>
+                <input type="number" id="mpgCar2">
+            </div>
+        </div>
+
+        <button onclick="calculateBreakEven()">Calculate</button>
+        <div id="result"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Jason Eissayou. All rights reserved.</p>
+    </footer>
+</body>
+</html>
