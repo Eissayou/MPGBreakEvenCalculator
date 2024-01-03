@@ -94,53 +94,7 @@
             margin-top: 20px;
         }
     </style>
-    <script>
-document.querySelectorAll('input[type="text"][inputmode="decimal"]').forEach(input => {
-    // Prevent non-numeric characters on key press
-    input.addEventListener('keypress', function(event) {
-        if (!/^[0-9]*\.?[0-9]*$/.test(event.key) && event.key !== 'Backspace') {
-            event.preventDefault();
-        }
-    });
 
-    // Restrict to two decimal places on input
-    input.addEventListener('input', function() {
-        // Correct the value if more than two decimal places
-        if (this.value.indexOf(".") >= 0 && this.value.split('.')[1].length > 2) {
-            this.value = parseFloat(this.value).toFixed(2);
-        }
-    });
-});
-
-
-        function calculateBreakEven() {
-            var gasPrice = parseFloat(document.getElementById("gasPrice").value);
-            var priceCar1 = parseFloat(document.getElementById("priceCar1").value);
-            var mpgCar1 = parseFloat(document.getElementById("mpgCar1").value);
-            var priceCar2 = parseFloat(document.getElementById("priceCar2").value);
-            var mpgCar2 = parseFloat(document.getElementById("mpgCar2").value);
-
-            if (isNaN(gasPrice) || isNaN(priceCar1) || isNaN(mpgCar1) || isNaN(priceCar2) || isNaN(mpgCar2)) {
-                alert("Please enter all fields correctly.");
-                return;
-            }
-
-            var costPerMileCar1 = gasPrice / mpgCar1;
-            var costPerMileCar2 = gasPrice / mpgCar2;
-
-            var costDifference = priceCar2 - priceCar1;
-            var costPerMileDifference = costPerMileCar1 - costPerMileCar2;
-
-            if (costPerMileDifference <= 0) {
-                document.getElementById("result").innerHTML = "The first car is always more cost-effective or equal in cost.";
-                return;
-            }
-
-            var breakEvenMiles = costDifference / costPerMileDifference;
-
-            document.getElementById("result").innerHTML = "Break-even point: " + breakEvenMiles.toFixed(2) + " miles";
-        }
-    </script>
 </head>
 <body>
     <header>
@@ -180,5 +134,50 @@ document.querySelectorAll('input[type="text"][inputmode="decimal"]').forEach(inp
     <footer>
         <p>&copy; 2024 Jason Eissayou. All rights reserved.</p>
     </footer>
+    <script>
+document.querySelectorAll('input[type="text"][inputmode="decimal"]').forEach(input => {
+    input.addEventListener('input', function() {
+        // Remove any non-numeric characters except the decimal point
+        this.value = this.value.replace(/[^0-9.]/g, '');
+
+        // Limit to only one decimal point
+        this.value = this.value.replace(/(\..*?)\..*/g, '$1');
+
+        // If value contains decimal point, restrict to two decimal places
+        if (this.value.indexOf('.') !== -1) {
+            this.value = this.value.substring(0, this.value.indexOf('.') + 3);
+        }
+    });
+});
+
+
+        function calculateBreakEven() {
+            var gasPrice = parseFloat(document.getElementById("gasPrice").value);
+            var priceCar1 = parseFloat(document.getElementById("priceCar1").value);
+            var mpgCar1 = parseFloat(document.getElementById("mpgCar1").value);
+            var priceCar2 = parseFloat(document.getElementById("priceCar2").value);
+            var mpgCar2 = parseFloat(document.getElementById("mpgCar2").value);
+
+            if (isNaN(gasPrice) || isNaN(priceCar1) || isNaN(mpgCar1) || isNaN(priceCar2) || isNaN(mpgCar2)) {
+                alert("Please enter all fields correctly.");
+                return;
+            }
+
+            var costPerMileCar1 = gasPrice / mpgCar1;
+            var costPerMileCar2 = gasPrice / mpgCar2;
+
+            var costDifference = priceCar2 - priceCar1;
+            var costPerMileDifference = costPerMileCar1 - costPerMileCar2;
+
+            if (costPerMileDifference <= 0) {
+                document.getElementById("result").innerHTML = "The first car is always more cost-effective or equal in cost.";
+                return;
+            }
+
+            var breakEvenMiles = costDifference / costPerMileDifference;
+
+            document.getElementById("result").innerHTML = "Break-even point: " + breakEvenMiles.toFixed(2) + " miles";
+        }
+    </script>
 </body>
 </html>
